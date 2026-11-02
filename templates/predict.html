@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}EigenScan Studio | Live Predictor{% endblock %}
+{% block body_class %}predict-page{% endblock %}
+
+{% block content %}
+<section class="page-hero predictor-hero section-shell">
+    <div class="reveal">
+        <div class="eyebrow"><span></span> Live model demonstration</div>
+        <h1>Ultrasound Predictor</h1>
+        <p>The deployed pipeline uses the final Notebook 2 model: StandardScaler, 90% PCA with 118 components, then Linear SVM.</p>
+    </div>
+    <div class="model-status reveal delay-1">
+        <i></i>
+        <div>
+            <strong>PCA + Linear SVM</strong>
+            <span>Model loaded and ready</span>
+        </div>
+    </div>
+</section>
+
+<section class="section-shell predictor-layout">
+    <div class="predict-controls reveal">
+        <div class="mode-switch">
+            <button class="mode-button active" data-mode="upload">Upload scan</button>
+            <button class="mode-button" data-mode="random">Untouched dataset</button>
+        </div>
+
+        <div id="uploadMode" class="mode-panel active">
+            <div id="dropZone" class="drop-zone">
+                <input id="fileInput" type="file" accept=".jpg,.jpeg,.png,.webp,.bmp,.tif,.tiff,.gif,.pdf,image/*,application/pdf">
+                <div class="upload-icon">
+                    <span></span>
+                </div>
+                <h3>Drop a scan here</h3>
+                <p>or click to browse</p>
+                <small>JPG, JPEG, PNG, WEBP, BMP, TIFF, GIF and PDF</small>
+            </div>
+            <div id="fileSummary" class="file-summary hidden">
+                <div class="file-type">IMG</div>
+                <div>
+                    <strong id="fileName">scan.png</strong>
+                    <span id="fileSize">0 KB</span>
+                </div>
+                <button id="clearFile" type="button">Remove</button>
+            </div>
+            <button id="predictUploadBtn" class="button button-primary full-button" type="button" disabled>
+                Analyze uploaded scan
+                <span>›</span>
+            </button>
+        </div>
+
+        <div id="randomMode" class="mode-panel">
+            <div class="random-card">
+                <div class="random-visual">
+                    <div class="dataset-ring ring-a"></div>
+                    <div class="dataset-ring ring-b"></div>
+                    <strong>39</strong>
+                    <span>untouched scans</span>
+                </div>
+                <h3>Run a genuine unseen example</h3>
+                <p>A scan is selected randomly from the 5% dataset that was removed before training, PCA fitting and model evaluation.</p>
+                <button id="randomPredictBtn" class="button button-secondary full-button" type="button">
+                    Pick random unseen scan
+                    <span>›</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="model-facts">
+            <div><span>Input</span><strong>128 x 128 grayscale</strong></div>
+            <div><span>PCA</span><strong>118 components</strong></div>
+            <div><span>Classifier</span><strong>Linear SVM</strong></div>
+            <div><span>Selection priority</span><strong>Recall first</strong></div>
+        </div>
+    </div>
+
+    <div class="predict-stage reveal delay-1">
+        <div id="emptyState" class="empty-result">
+            <div class="empty-orb">
+                <span></span>
+                <span></span>
+                <span></span>
+                <i></i>
+            </div>
+            <h2>Ready for analysis</h2>
+            <p>Choose an uploaded scan or select an untouched dataset sample.</p>
+        </div>
+
+        <div id="loadingState" class="loading-result hidden">
+            <div class="analysis-visual">
+                <div class="analysis-scan-wrap">
+                    <img id="loadingPreview" alt="Scan being processed">
+                    <div class="live-scan-beam"></div>
+                    <div class="analysis-grid"></div>
+                </div>
+                <div class="analysis-orbits">
+                    <i></i><i></i><i></i>
+                </div>
+            </div>
+            <div class="loading-copy">
+                <span class="loading-kicker">ANALYSIS IN PROGRESS</span>
+                <h2 id="loadingTitle">Processing scan</h2>
+                <div class="progress-track"><i id="progressBar"></i></div>
+                <div class="process-steps">
+                    <span data-step="1">Prepare 128 x 128 grayscale input</span>
+                    <span data-step="2">Standardize 16,384 pixel features</span>
+                    <span data-step="3">Project through 118 PCA components</span>
+                    <span data-step="4">Apply Linear SVM decision boundary</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="resultState" class="result-panel hidden">
+            <div class="result-preview">
+                <img id="resultImage" alt="Analyzed ultrasound scan">
+                <div class="result-scanline"></div>
+                <span id="sourceBadge" class="source-badge">Uploaded scan</span>
+            </div>
+            <div class="result-content">
+                <span class="mini-label">MODEL OUTPUT</span>
+                <p class="result-label">Predicted class</p>
+                <h2 id="predictionText">Benign</h2>
+                <div id="actualBlock" class="actual-block hidden">
+                    <span>Actual class</span>
+                    <strong id="actualText">Benign</strong>
+                    <b id="correctnessBadge">Correct prediction</b>
+                </div>
+                <div class="result-pipeline">
+                    <div><span>1</span><p>Grayscale input</p></div>
+                    <i></i>
+                    <div><span>2</span><p>StandardScaler</p></div>
+                    <i></i>
+                    <div><span>3</span><p>PCA 118</p></div>
+                    <i></i>
+                    <div><span>4</span><p>Linear SVM</p></div>
+                </div>
+                <button id="resetPrediction" class="text-button" type="button">Run another prediction</button>
+            </div>
+        </div>
+
+        <div id="errorState" class="error-panel hidden">
+            <div class="error-icon">!</div>
+            <h2>Unable to process this file</h2>
+            <p id="errorText">Please try another scan.</p>
+            <button id="errorReset" class="button button-secondary" type="button">Try again</button>
+        </div>
+    </div>
+</section>
+
+<section class="section-shell deployed-model-section">
+    <div class="section-heading reveal">
+        <div class="eyebrow"><span></span> Model behind the prediction</div>
+        <h2>Why this model is deployed</h2>
+        <p>PCA plus Linear SVM was selected using the same multi-metric priority declared before deployment.</p>
+    </div>
+
+    <div class="deploy-metric-grid">
+        <div class="deploy-metric reveal"><span>Malignant recall</span><strong>57.50%</strong><small>Highest among Notebook 2 models</small></div>
+        <div class="deploy-metric reveal delay-1"><span>Accuracy</span><strong>75.84%</strong><small>Overall test correctness</small></div>
+        <div class="deploy-metric reveal delay-2"><span>Malignant F1</span><strong>56.10%</strong><small>Precision-recall balance</small></div>
+        <div class="deploy-metric reveal delay-3"><span>False negatives</span><strong>17</strong><small>Lowest in Notebook 2</small></div>
+    </div>
+
+    <div class="predictor-note reveal">
+        <strong>Academic project demonstration</strong>
+        <p>This application demonstrates the trained FOML pipeline and is not intended for clinical diagnosis.</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/predict.js') }}"></script>
+{% endblock %}

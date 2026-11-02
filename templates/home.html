@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block title %}EigenScan Studio | Home{% endblock %}
+{% block body_class %}home-page{% endblock %}
+
+{% block content %}
+<section class="hero section-shell">
+    <div class="hero-copy reveal">
+        <div class="eyebrow"><span></span> FOML Comparative Analysis</div>
+        <h1>
+            Breast Cancer Detection
+            <span>from data to ultrasound scans</span>
+        </h1>
+        <p class="hero-lead">
+            A comparative machine learning study using PCA, LDA, Linear SVM and RBF SVM to classify breast cancer cases as benign or malignant, followed by deployment of the selected image model.
+        </p>
+
+        <div class="hero-actions">
+            <a class="button button-primary magnetic" href="{{ url_for('learning') }}">
+                Explore the analysis
+                <span class="button-arrow">›</span>
+            </a>
+            <a class="button button-secondary magnetic" href="{{ url_for('predict_page') }}">
+                Open live predictor
+                <span class="button-arrow">›</span>
+            </a>
+        </div>
+
+        <div class="hero-microstats">
+            <div>
+                <strong class="counter" data-target="2">0</strong>
+                <span>Notebooks</span>
+            </div>
+            <div>
+                <strong class="counter" data-target="5">0</strong>
+                <span>Models compared</span>
+            </div>
+            <div>
+                <strong class="counter" data-target="39">0</strong>
+                <span>Untouched scans</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-visual reveal delay-1">
+        <div class="scanner-orbit orbit-one"></div>
+        <div class="scanner-orbit orbit-two"></div>
+        <div class="scanner-card tilt-card">
+            <div class="scanner-topbar">
+                <span>ULTRASOUND INPUT</span>
+                <span class="live-indicator"><i></i> MODEL READY</span>
+            </div>
+            <div class="scanner-frame">
+                <img src="{{ url_for('static', filename='images/hero_scan.png') }}" alt="Ultrasound scan sample">
+                <div class="scan-beam"></div>
+                <div class="scan-grid"></div>
+                <div class="focus-box focus-a"></div>
+                <div class="focus-box focus-b"></div>
+            </div>
+            <div class="scanner-pipeline">
+                <span>128 x 128</span>
+                <i></i>
+                <span>PCA 118</span>
+                <i></i>
+                <span>Linear SVM</span>
+            </div>
+        </div>
+        <div class="floating-chip chip-a">PCA</div>
+        <div class="floating-chip chip-b">LDA</div>
+        <div class="floating-chip chip-c">SVM</div>
+    </div>
+</section>
+
+<section class="section-shell overview-grid">
+    <article class="glass-card reveal">
+        <span class="card-index">01</span>
+        <h2>Problem statement</h2>
+        <p>
+            Breast cancer classification requires distinguishing between benign and malignant cases using available clinical or image-based data. This project performs a comparative analysis of classical machine learning techniques to study how different feature representations and classification models perform in breast cancer detection.
+        </p>
+    </article>
+
+    <article class="glass-card reveal delay-1">
+        <span class="card-index">02</span>
+        <h2>Objective</h2>
+        <p>
+            Develop and comparatively evaluate PCA, LDA and SVM based approaches for benign versus malignant classification, then identify the strongest predictive model using multiple performance measures rather than accuracy alone.
+        </p>
+    </article>
+</section>
+
+<section class="section-shell comparison-section">
+    <div class="section-heading reveal">
+        <div class="eyebrow"><span></span> Comparative framework</div>
+        <h2>One question, multiple model paths</h2>
+        <p>Which classical machine learning approach provides the strongest overall performance for benign versus malignant breast cancer classification?</p>
+    </div>
+
+    <div class="pipeline-map reveal">
+        <div class="pipeline-node primary-node">
+            <small>INPUT</small>
+            <strong>Breast Cancer Data</strong>
+        </div>
+        <div class="pipeline-connector"></div>
+        <div class="pipeline-split">
+            <div class="pipeline-branch">
+                <div class="pipeline-node">
+                    <small>ORIGINAL FEATURES</small>
+                    <strong>Linear SVM</strong>
+                </div>
+                <div class="pipeline-node">
+                    <small>ORIGINAL FEATURES</small>
+                    <strong>RBF SVM</strong>
+                </div>
+            </div>
+            <div class="pipeline-branch">
+                <div class="pipeline-node accent-node">
+                    <small>DIMENSION REDUCTION</small>
+                    <strong>PCA</strong>
+                </div>
+                <div class="pipeline-node">
+                    <small>PCA FEATURES</small>
+                    <strong>LDA</strong>
+                </div>
+                <div class="pipeline-node">
+                    <small>PCA FEATURES</small>
+                    <strong>Linear SVM</strong>
+                </div>
+                <div class="pipeline-node">
+                    <small>PCA FEATURES</small>
+                    <strong>RBF SVM</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-shell journey-section">
+    <div class="journey-card reveal">
+        <div>
+            <span class="journey-tag">PAGE 2</span>
+            <h3>Understand the complete analysis</h3>
+            <p>Walk through both notebooks, the mathematics, exact outputs, metric formulas, model comparison tables, conclusions and final model selection.</p>
+        </div>
+        <a class="button button-primary" href="{{ url_for('learning') }}">Enter analysis <span>›</span></a>
+    </div>
+
+    <div class="journey-card reveal delay-1">
+        <div>
+            <span class="journey-tag">PAGE 3</span>
+            <h3>Run the selected predictive model</h3>
+            <p>Upload a scan or randomly select one of the 39 untouched images and watch the complete PCA plus Linear SVM pipeline run.</p>
+        </div>
+        <a class="button button-secondary" href="{{ url_for('predict_page') }}">Enter predictor <span>›</span></a>
+    </div>
+</section>
+{% endblock %}

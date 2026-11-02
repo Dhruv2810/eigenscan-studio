@@ -1,0 +1,379 @@
+{% extends "base.html" %}
+{% block title %}EigenScan Studio | Comparative Analysis{% endblock %}
+{% block body_class %}learning-page{% endblock %}
+
+{% block content %}
+<section class="page-hero compact-hero section-shell">
+    <div class="reveal">
+        <div class="eyebrow"><span></span> Complete presentation</div>
+        <h1>Comparative Analysis</h1>
+        <p>Two notebooks, one connected study. Notebook 1 builds the foundations on structured breast cancer features. Notebook 2 applies the same core FOML methods to ultrasound images and selects the deployed model.</p>
+    </div>
+    <div class="page-hero-badge reveal delay-1">
+        <strong>5</strong>
+        <span>model paths compared</span>
+    </div>
+</section>
+
+<div class="analysis-nav-wrap">
+    <nav class="analysis-nav">
+        <a href="#notebook1">Notebook 1</a>
+        <a href="#metrics">Metric formulas</a>
+        <a href="#notebook2">Notebook 2</a>
+        <a href="#final-selection">Final selection</a>
+    </nav>
+</div>
+
+<section id="notebook1" class="section-shell notebook-section">
+    <div class="notebook-header reveal">
+        <div>
+            <span class="notebook-label">NOTEBOOK 1</span>
+            <h2>Foundations on structured breast cancer data</h2>
+            <p>The first notebook uses the Breast Cancer Wisconsin dataset to understand the mathematical and practical behavior of PCA, LDA and SVM before moving to ultrasound pixels.</p>
+        </div>
+        <div class="notebook-number">01</div>
+    </div>
+
+    <div class="stat-grid five-col reveal">
+        <div class="stat-card"><span>Samples</span><strong>569</strong><small>357 benign, 212 malignant</small></div>
+        <div class="stat-card"><span>Original features</span><strong>30</strong><small>Numerical measurements</small></div>
+        <div class="stat-card"><span>Training samples</span><strong>455</strong><small>80% stratified split</small></div>
+        <div class="stat-card"><span>Test samples</span><strong>114</strong><small>20% stratified split</small></div>
+        <div class="stat-card accent-stat"><span>PCA output</span><strong>7</strong><small>91.14% variance retained</small></div>
+    </div>
+
+    <div class="content-grid two-col">
+        <article class="glass-card reveal">
+            <span class="mini-label">WHAT WE DID</span>
+            <h3>Notebook 1 workflow</h3>
+            <ol class="workflow-list">
+                <li><b>Load and inspect</b><span>569 samples with 30 numerical features.</span></li>
+                <li><b>Encode labels</b><span>Benign = 0 and malignant = 1 so malignant metrics are directly measured.</span></li>
+                <li><b>Split the data</b><span>455 training samples and 114 testing samples using stratification.</span></li>
+                <li><b>Standardize</b><span>Fit StandardScaler on training data and transform the test data with the same statistics.</span></li>
+                <li><b>Understand PCA manually</b><span>Center data, calculate covariance, eigenvalues and eigenvectors, then retain enough components for 90% variance.</span></li>
+                <li><b>Apply library PCA</b><span>Reduce 30 features to 7 principal components while retaining 91.14% of variance.</span></li>
+                <li><b>Train LDA and SVM</b><span>Compare LDA, Linear SVM and RBF SVM on original and PCA features.</span></li>
+            </ol>
+        </article>
+
+        <article class="glass-card reveal delay-1">
+            <span class="mini-label">WHAT WE LEARNT</span>
+            <h3>Key learning from Notebook 1</h3>
+            <div class="learning-points">
+                <div><strong>PCA is unsupervised</strong><p>It finds directions with maximum variance without using class labels.</p></div>
+                <div><strong>Eigenvalues rank importance</strong><p>Larger eigenvalues represent principal directions that explain more variance.</p></div>
+                <div><strong>Eigenvectors define directions</strong><p>They form the new PCA axes used to project the original feature space.</p></div>
+                <div><strong>LDA is supervised</strong><p>It uses class labels and focuses on separating benign and malignant classes.</p></div>
+                <div><strong>SVM depends on the feature space</strong><p>Linear and RBF kernels behave differently before and after dimensionality reduction.</p></div>
+            </div>
+        </article>
+    </div>
+
+    <article class="glass-card pca-spotlight reveal">
+        <div>
+            <span class="mini-label">PCA OUTPUT</span>
+            <h3>30 original features became 7 principal components</h3>
+            <p>The first seven principal components retained 91.14% of the total variance. The first component alone explained 44.59%.</p>
+        </div>
+        <div class="variance-bars">
+            <div><span>PC1</span><i style="--bar:44.59%"></i><b>44.59%</b></div>
+            <div><span>PC2</span><i style="--bar:18.55%"></i><b>18.55%</b></div>
+            <div><span>PC3</span><i style="--bar:9.58%"></i><b>9.58%</b></div>
+            <div><span>PC4</span><i style="--bar:6.59%"></i><b>6.59%</b></div>
+            <div><span>PC5</span><i style="--bar:5.62%"></i><b>5.62%</b></div>
+            <div><span>PC6</span><i style="--bar:3.99%"></i><b>3.99%</b></div>
+            <div><span>PC7</span><i style="--bar:2.21%"></i><b>2.21%</b></div>
+        </div>
+    </article>
+
+    <div class="results-block reveal">
+        <div class="block-title">
+            <div>
+                <span class="mini-label">EXACT OUTPUTS</span>
+                <h3>Notebook 1 model comparison</h3>
+            </div>
+            <span class="data-tag">Test set: 114 cases</span>
+        </div>
+        <div class="table-shell">
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Accuracy</th>
+                        <th>Malignant precision</th>
+                        <th>Malignant recall</th>
+                        <th>Malignant F1</th>
+                        <th>False negatives</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>LDA</td><td>96.49%</td><td>100.00%</td><td>90.48%</td><td>95.00%</td><td>4</td></tr>
+                    <tr><td>Linear SVM, original</td><td>96.49%</td><td>100.00%</td><td>90.48%</td><td>95.00%</td><td>4</td></tr>
+                    <tr><td>RBF SVM, original</td><td>97.37%</td><td>100.00%</td><td>92.86%</td><td>96.30%</td><td>3</td></tr>
+                    <tr class="selected-row"><td><span class="winner-dot"></span>Linear SVM, PCA</td><td>97.37%</td><td>97.56%</td><td><strong>95.24%</strong></td><td><strong>96.39%</strong></td><td><strong>2</strong></td></tr>
+                    <tr><td>RBF SVM, PCA</td><td>96.49%</td><td>97.50%</td><td>92.86%</td><td>95.12%</td><td>3</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="selected-model-panel reveal">
+        <div class="selection-copy">
+            <span class="mini-label">NOTEBOOK 1 RESULT</span>
+            <h3>Selected: Linear SVM on PCA features</h3>
+            <p>It tied for the highest accuracy at 97.37%, achieved the highest malignant recall at 95.24%, produced the strongest F1-score at 96.39%, and missed only 2 malignant cases.</p>
+        </div>
+        <div class="confusion-card">
+            <div class="matrix-title">Confusion matrix</div>
+            <div class="matrix-axis top-axis"><span>Predicted benign</span><span>Predicted malignant</span></div>
+            <div class="matrix-body">
+                <div class="matrix-y"><span>Actual benign</span><span>Actual malignant</span></div>
+                <div class="matrix-cells">
+                    <div class="matrix-cell good"><small>TN</small><strong>71</strong></div>
+                    <div class="matrix-cell warning"><small>FP</small><strong>1</strong></div>
+                    <div class="matrix-cell danger"><small>FN</small><strong>2</strong></div>
+                    <div class="matrix-cell good"><small>TP</small><strong>40</strong></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <article class="conclusion-card reveal">
+        <span>Notebook 1 conclusion</span>
+        <p>PCA reduced the feature space from 30 variables to 7 components while preserving more than 91% of the variance. The comparison showed that the PCA representation worked especially well with Linear SVM, giving the highest malignant recall and the fewest false negatives on the test split.</p>
+    </article>
+</section>
+
+<section id="metrics" class="section-shell metrics-section">
+    <div class="section-heading reveal">
+        <div class="eyebrow"><span></span> Evaluation framework</div>
+        <h2>How every model is measured</h2>
+        <p>Malignant is the positive class throughout the project, so precision, recall and F1 directly describe malignant-case performance.</p>
+    </div>
+
+    <div class="formula-grid">
+        <article class="formula-card reveal">
+            <span>Accuracy</span>
+            <strong>(TP + TN) / (TP + TN + FP + FN)</strong>
+            <p>Overall proportion of correct predictions.</p>
+        </article>
+        <article class="formula-card reveal delay-1">
+            <span>Malignant precision</span>
+            <strong>TP / (TP + FP)</strong>
+            <p>Of all cases predicted malignant, how many were actually malignant.</p>
+        </article>
+        <article class="formula-card reveal delay-2">
+            <span>Malignant recall</span>
+            <strong>TP / (TP + FN)</strong>
+            <p>Of all actual malignant cases, how many the model detected.</p>
+        </article>
+        <article class="formula-card reveal delay-3">
+            <span>F1-score</span>
+            <strong>2 x (Precision x Recall) / (Precision + Recall)</strong>
+            <p>A single measure that balances precision and recall.</p>
+        </article>
+    </div>
+
+    <div class="legend-row reveal">
+        <span><b>TP</b> True positive</span>
+        <span><b>TN</b> True negative</span>
+        <span><b>FP</b> False positive</span>
+        <span><b>FN</b> False negative</span>
+    </div>
+</section>
+
+<section id="notebook2" class="section-shell notebook-section notebook-two">
+    <div class="notebook-header reveal">
+        <div>
+            <span class="notebook-label">NOTEBOOK 2</span>
+            <h2>Comparative analysis on breast ultrasound images</h2>
+            <p>The second notebook moves from 30 engineered numerical features to actual 128 x 128 ultrasound pixels, while keeping the same core PCA, LDA and SVM framework.</p>
+        </div>
+        <div class="notebook-number">02</div>
+    </div>
+
+    <div class="stat-grid five-col reveal">
+        <div class="stat-card"><span>Ultrasound images</span><strong>780</strong><small>570 benign, 210 malignant</small></div>
+        <div class="stat-card"><span>Pixel features</span><strong>16,384</strong><small>Flattened per image</small></div>
+        <div class="stat-card"><span>Training samples</span><strong>592</strong><small>Model fitting only</small></div>
+        <div class="stat-card"><span>Test samples</span><strong>149</strong><small>Comparative evaluation</small></div>
+        <div class="stat-card accent-stat"><span>Untouched demo</span><strong>39</strong><small>Reserved for Page 3</small></div>
+    </div>
+
+    <div class="content-grid two-col">
+        <article class="glass-card reveal">
+            <span class="mini-label">WHAT WE DID</span>
+            <h3>Notebook 2 workflow</h3>
+            <ol class="workflow-list">
+                <li><b>Combine the supplied image splits</b><span>780 grayscale ultrasound images in total.</span></li>
+                <li><b>Encode malignant as positive</b><span>Benign = 0 and malignant = 1.</span></li>
+                <li><b>Reserve an untouched set</b><span>39 images are removed before training and evaluation for the live web demo.</span></li>
+                <li><b>Flatten every scan</b><span>128 x 128 becomes a 16,384-dimensional pixel vector.</span></li>
+                <li><b>Standardize training pixels</b><span>The fitted scaler is reused for test, demo and uploaded scans.</span></li>
+                <li><b>Apply one PCA model</b><span>16,384 features become 118 principal components while retaining 90.01% variance.</span></li>
+                <li><b>Compare five model paths</b><span>LDA on PCA, Linear SVM, RBF SVM, PCA plus Linear SVM, and PCA plus RBF SVM.</span></li>
+            </ol>
+        </article>
+
+        <article class="glass-card reveal delay-1">
+            <span class="mini-label">WHAT WE LEARNT</span>
+            <h3>Key learning from Notebook 2</h3>
+            <div class="learning-points">
+                <div><strong>Image pixels create a very high dimensional space</strong><p>Each scan starts with 16,384 numerical pixel values.</p></div>
+                <div><strong>PCA compresses the image representation</strong><p>Only 118 components are needed to retain slightly above 90% of training variance.</p></div>
+                <div><strong>Eigen-Scans visualize PCA directions</strong><p>Each principal component can be reshaped back into a 128 x 128 image-like pattern.</p></div>
+                <div><strong>Accuracy alone changes the winner</strong><p>PCA plus RBF SVM has the highest accuracy, but it detects fewer actual malignant cases.</p></div>
+                <div><strong>Model choice depends on the declared priority</strong><p>Our final rule places malignant recall first, then accuracy, F1, precision and false negatives.</p></div>
+            </div>
+        </article>
+    </div>
+
+    <article class="glass-card pca-spotlight reveal">
+        <div>
+            <span class="mini-label">PCA OUTPUT</span>
+            <h3>16,384 pixel features became 118 principal components</h3>
+            <p>The fitted PCA model retained 90.01% of training variance. These same 118 components are used by the deployed predictor.</p>
+        </div>
+        <div class="compression-visual">
+            <div><strong>16,384</strong><span>raw pixel features</span></div>
+            <div class="compression-arrow"><i></i><i></i><i></i></div>
+            <div class="compressed"><strong>118</strong><span>PCA features</span></div>
+        </div>
+    </article>
+
+    <div class="eigenscan-block reveal">
+        <div class="block-title">
+            <div>
+                <span class="mini-label">OUTPUT VISUALIZATION</span>
+                <h3>First 10 Eigen-Scans</h3>
+            </div>
+            <span class="data-tag">PCA principal directions</span>
+        </div>
+        <p class="block-description">An Eigen-Scan is a principal component reshaped back into image form. It is a learned direction of variation, not a patient scan.</p>
+        <div class="eigen-grid">
+            {% for i in range(1, 11) %}
+            <figure class="eigen-card">
+                <img src="{{ url_for('static', filename='images/eigenscans/pc_%02d.png' % i) }}" alt="PCA Eigen-Scan {{ i }}">
+                <figcaption>PC {{ i }}</figcaption>
+            </figure>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="results-block reveal">
+        <div class="block-title">
+            <div>
+                <span class="mini-label">EXACT OUTPUTS</span>
+                <h3>Notebook 2 model comparison</h3>
+            </div>
+            <span class="data-tag">Test set: 149 scans</span>
+        </div>
+        <div class="table-shell">
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Model</th>
+                        <th>Accuracy</th>
+                        <th>Malignant precision</th>
+                        <th>Malignant recall</th>
+                        <th>Malignant F1</th>
+                        <th>False negatives</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="selected-row"><td><span class="winner-dot"></span>PCA + Linear SVM</td><td>75.84%</td><td>54.76%</td><td><strong>57.50%</strong></td><td>56.10%</td><td><strong>17</strong></td></tr>
+                    <tr><td>LDA on PCA</td><td>78.52%</td><td>61.76%</td><td>52.50%</td><td><strong>56.76%</strong></td><td>19</td></tr>
+                    <tr><td>Linear SVM</td><td>75.17%</td><td>54.05%</td><td>50.00%</td><td>51.95%</td><td>20</td></tr>
+                    <tr class="accuracy-row"><td>PCA + RBF SVM <span class="table-badge">Highest accuracy</span></td><td><strong>82.55%</strong></td><td><strong>85.00%</strong></td><td>42.50%</td><td>56.67%</td><td>23</td></tr>
+                    <tr><td>RBF SVM</td><td>80.54%</td><td>82.35%</td><td>35.00%</td><td>49.12%</td><td>26</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="final-selection" class="selection-rule reveal">
+        <div class="selection-rule-copy">
+            <span class="mini-label">FINAL MODEL SELECTION RULE</span>
+            <h3>We do not choose the model using accuracy alone</h3>
+            <p>The models are compared in this priority order. A later metric is used after the earlier priority has been considered.</p>
+        </div>
+        <div class="priority-chain">
+            <div><span>1</span><strong>Malignant Recall</strong></div>
+            <i></i>
+            <div><span>2</span><strong>Accuracy</strong></div>
+            <i></i>
+            <div><span>3</span><strong>Malignant F1</strong></div>
+            <i></i>
+            <div><span>4</span><strong>Malignant Precision</strong></div>
+            <i></i>
+            <div><span>5</span><strong>Fewer False Negatives</strong></div>
+        </div>
+    </div>
+
+    <div class="decision-comparison reveal">
+        <article class="decision-card accuracy-choice">
+            <span>If accuracy alone was used</span>
+            <h3>PCA + RBF SVM</h3>
+            <div class="decision-metrics">
+                <div><b>82.55%</b><small>Accuracy</small></div>
+                <div><b>42.50%</b><small>Malignant recall</small></div>
+                <div><b>23</b><small>False negatives</small></div>
+            </div>
+        </article>
+
+        <div class="decision-vs">VS</div>
+
+        <article class="decision-card selected-choice">
+            <span>Using our multi-metric priority</span>
+            <h3>PCA + Linear SVM</h3>
+            <div class="decision-metrics">
+                <div><b>75.84%</b><small>Accuracy</small></div>
+                <div><b>57.50%</b><small>Malignant recall</small></div>
+                <div><b>17</b><small>False negatives</small></div>
+            </div>
+        </article>
+    </div>
+
+    <div class="selected-model-panel reveal">
+        <div class="selection-copy">
+            <span class="mini-label">FINAL PREDICTIVE MODEL</span>
+            <h3>PCA + Linear SVM</h3>
+            <p>This model has the highest malignant recall in Notebook 2 and the fewest false negatives. Under the declared selection rule, it is therefore the strongest overall model and is used on Page 3.</p>
+            <div class="inline-metrics">
+                <span><b>57.50%</b> malignant recall</span>
+                <span><b>75.84%</b> accuracy</span>
+                <span><b>56.10%</b> F1</span>
+                <span><b>54.76%</b> precision</span>
+            </div>
+        </div>
+        <div class="confusion-card">
+            <div class="matrix-title">Confusion matrix</div>
+            <div class="matrix-axis top-axis"><span>Predicted benign</span><span>Predicted malignant</span></div>
+            <div class="matrix-body">
+                <div class="matrix-y"><span>Actual benign</span><span>Actual malignant</span></div>
+                <div class="matrix-cells">
+                    <div class="matrix-cell good"><small>TN</small><strong>90</strong></div>
+                    <div class="matrix-cell warning"><small>FP</small><strong>19</strong></div>
+                    <div class="matrix-cell danger"><small>FN</small><strong>17</strong></div>
+                    <div class="matrix-cell good"><small>TP</small><strong>23</strong></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <article class="conclusion-card reveal">
+        <span>Notebook 2 conclusion</span>
+        <p>The image experiment reduced 16,384 pixel features to 118 PCA components and compared five classical model paths. PCA plus RBF SVM produced the highest test accuracy, but PCA plus Linear SVM detected the largest proportion of malignant cases and produced the fewest false negatives. Based on the project's declared multi-metric priority, PCA plus Linear SVM is selected for deployment.</p>
+    </article>
+
+    <div class="deployment-bridge reveal">
+        <div>
+            <span class="mini-label">FROM ANALYSIS TO DEPLOYMENT</span>
+            <h3>The selected Notebook 2 model is now live</h3>
+            <p>The predictor uses the saved training scaler, the exact 118-component PCA transform and the trained Linear SVM. No retraining happens during the presentation.</p>
+        </div>
+        <a class="button button-primary" href="{{ url_for('predict_page') }}">Open live predictor <span>›</span></a>
+    </div>
+</section>
+{% endblock %}

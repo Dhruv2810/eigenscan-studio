@@ -1,0 +1,126 @@
+{
+  "notebook1": {
+    "dataset": {
+      "samples": 569,
+      "features": 30,
+      "benign": 357,
+      "malignant": 212,
+      "train": 455,
+      "test": 114,
+      "pca_components": 7,
+      "variance_retained": 91.14245416254099
+    },
+    "models": [
+      {
+        "model": "LDA",
+        "accuracy": 96.49122807017544,
+        "precision": 100.0,
+        "recall": 90.47619047619048,
+        "f1": 95.0,
+        "fn": 4
+      },
+      {
+        "model": "SVM Linear - Original Features",
+        "accuracy": 96.49122807017544,
+        "precision": 100.0,
+        "recall": 90.47619047619048,
+        "f1": 95.0,
+        "fn": 4
+      },
+      {
+        "model": "SVM RBF - Original Features",
+        "accuracy": 97.36842105263158,
+        "precision": 100.0,
+        "recall": 92.85714285714286,
+        "f1": 96.29629629629629,
+        "fn": 3
+      },
+      {
+        "model": "SVM Linear - PCA Features",
+        "accuracy": 97.36842105263158,
+        "precision": 97.5609756097561,
+        "recall": 95.23809523809523,
+        "f1": 96.3855421686747,
+        "fn": 2
+      },
+      {
+        "model": "SVM RBF - PCA Features",
+        "accuracy": 96.49122807017544,
+        "precision": 97.5,
+        "recall": 92.85714285714286,
+        "f1": 95.1219512195122,
+        "fn": 3
+      }
+    ],
+    "selected": "SVM Linear - PCA Features",
+    "confusion_matrix": {
+      "tn": 71,
+      "fp": 1,
+      "fn": 2,
+      "tp": 40
+    }
+  },
+  "notebook2": {
+    "dataset": {
+      "samples": 780,
+      "features": 16384,
+      "benign": 570,
+      "malignant": 210,
+      "train": 592,
+      "test": 149,
+      "demo": 39,
+      "pca_components": 118,
+      "variance_retained": 90.01056671142578
+    },
+    "models": [
+      {
+        "model": "PCA + Linear SVM",
+        "accuracy": 75.83892617449665,
+        "precision": 54.761904761904766,
+        "recall": 57.49999999999999,
+        "f1": 56.09756097560976,
+        "fn": 17
+      },
+      {
+        "model": "LDA on PCA",
+        "accuracy": 78.52348993288591,
+        "precision": 61.76470588235294,
+        "recall": 52.5,
+        "f1": 56.756756756756765,
+        "fn": 19
+      },
+      {
+        "model": "Linear SVM",
+        "accuracy": 75.16778523489933,
+        "precision": 54.054054054054056,
+        "recall": 50.0,
+        "f1": 51.94805194805195,
+        "fn": 20
+      },
+      {
+        "model": "PCA + RBF SVM",
+        "accuracy": 82.5503355704698,
+        "precision": 85.0,
+        "recall": 42.5,
+        "f1": 56.666666666666664,
+        "fn": 23
+      },
+      {
+        "model": "RBF SVM",
+        "accuracy": 80.53691275167785,
+        "precision": 82.35294117647058,
+        "recall": 35.0,
+        "f1": 49.122807017543856,
+        "fn": 26
+      }
+    ],
+    "selected": "PCA + Linear SVM",
+    "highest_accuracy": "PCA + RBF SVM",
+    "confusion_matrix": {
+      "tn": 90,
+      "fp": 19,
+      "fn": 17,
+      "tp": 23
+    }
+  }
+}
